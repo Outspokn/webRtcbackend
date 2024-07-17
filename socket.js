@@ -46,6 +46,11 @@ module.exports.initIO = (httpServer) => {
       });
     });
 
+    socket.on("callEnd", (data) => {
+      let userId = data.to;
+      socket.to(userId).emit("callEnd");
+    });
+
     socket.on("disconnect", () => {
       console.log(socket.user, "Disconnected");
     });
