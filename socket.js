@@ -48,11 +48,12 @@ module.exports.initIO = (httpServer) => {
 
     socket.on("callEnd", (data) => {
       let userId = data.to;
-      socket.to(userId).emit("callEnd");
+      socket.to(userId).emit("callEnd", { reason: "Call ended by user" });
     });
 
     socket.on("disconnect", () => {
       console.log(socket.user, "Disconnected");
+      socket.to(socket.user).emit("callEnd", { reason: "User disconnected" });
     });
   });
 };
